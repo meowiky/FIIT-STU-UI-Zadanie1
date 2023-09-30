@@ -1,0 +1,15 @@
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\bin\Debug\net7.0\UI_Zadanie1_c_Bukovska.exe
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\bin\Debug\net7.0\UI_Zadanie1_c_Bukovska.deps.json
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\bin\Debug\net7.0\UI_Zadanie1_c_Bukovska.runtimeconfig.json
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\bin\Debug\net7.0\UI_Zadanie1_c_Bukovska.dll
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\bin\Debug\net7.0\UI_Zadanie1_c_Bukovska.pdb
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.csproj.AssemblyReference.cache
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.GeneratedMSBuildEditorConfig.editorconfig
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.AssemblyInfoInputs.cache
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.AssemblyInfo.cs
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.csproj.CoreCompileInputs.cache
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.dll
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\refint\UI_Zadanie1_c_Bukovska.dll
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.pdb
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\UI_Zadanie1_c_Bukovska.genruntimeconfig.cache
+C:\FIIT STU\5 semester\UI\UI_Zadanie1_c_Bukovska\obj\Debug\net7.0\ref\UI_Zadanie1_c_Bukovska.dll

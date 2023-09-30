@@ -4,7 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            int[] input = { 8, 7, 3, 2, 0, 1, 4, 6, 5 };
+            PuzzleNode skuska = new PuzzleNode(input);
+            List<MoveEnum> possible = skuska.GetPossibleMoves();
+            (int[,], int[]) next = skuska.GetNewState(MoveEnum.Up);
+            Console.WriteLine(skuska.GetPossibleMoves());
         }
     }
 }

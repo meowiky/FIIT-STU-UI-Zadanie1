@@ -30,16 +30,35 @@ namespace UI_Zadanie1_c_Bukovska
                     State[row, col] = input[index];
                     if (input[index] == 0)
                     {
-
                         SpacePosition[0] = row;
-                        SpacePosition[0] = col;
+                        SpacePosition[1] = col;
                     }
                     index++;
                 }
             }
         }
 
-        public PuzzleNode(int[,] state, int[] spacePosition)
+        public PuzzleNode(int[,] state, int[] spacePosition, List<MoveEnum> moves)
+            : this()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    State[i, j] = state[i, j];
+                }
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                SpacePosition[i] = spacePosition[i];
+            }
+
+            foreach (MoveEnum move in moves)
+            {
+                Moves.Add(move);
+            }
+        }
 
 
 

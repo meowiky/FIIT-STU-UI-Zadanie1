@@ -16,6 +16,8 @@ namespace UI_Zadanie1_c_Bukovska
 
         public PuzzleNode(int rows, int columns)
         {
+            Rows = rows;
+            Columns = columns;
             State = new int[rows, columns];
             Moves = new List<MoveEnum>();
             SpacePosition = new int[2];

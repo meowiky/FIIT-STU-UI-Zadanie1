@@ -108,11 +108,11 @@ namespace UI_Zadanie1_c_Bukovska
                     break;
                 case MoveEnum.Left:
                     tomoveX = SpacePosition[0];
-                    tomoveY = SpacePosition[1] - 1;
+                    tomoveY = SpacePosition[1] + 1;
                     break;
                 case MoveEnum.Right:
                     tomoveX = SpacePosition[0];
-                    tomoveY = SpacePosition[1] + 1;
+                    tomoveY = SpacePosition[1] - 1;
                     break;
             }
 

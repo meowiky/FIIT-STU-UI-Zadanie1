@@ -64,16 +64,16 @@ namespace UI_Zadanie1_c_Bukovska
             List<MoveEnum> possibleMoves = new List<MoveEnum>();
 
             // left
-            if (this.SpacePosition[1] + 1 < this.Columns)
+            if (SpacePosition[1] + 1 < Columns)
                 possibleMoves.Add(MoveEnum.Left);
             // right
-            if (this.SpacePosition[1] - 1 >= 0)
+            if (SpacePosition[1] - 1 >= 0)
                 possibleMoves.Add(MoveEnum.Right);
             //up
-            if (this.SpacePosition[0] + 1 < this.Rows)
+            if (SpacePosition[0] + 1 < Rows)
                 possibleMoves.Add(MoveEnum.Up);
             //down
-            if (this.SpacePosition[0] - 1 >= 0)
+            if (SpacePosition[0] - 1 >= 0)
                 possibleMoves.Add(MoveEnum.Down);
 
             return possibleMoves;

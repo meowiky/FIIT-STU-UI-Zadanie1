@@ -15,58 +15,36 @@ namespace UI_Zadanie1_c_Bukovska
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
-                if (lines.Length < 3)
-                {
-                    Console.WriteLine("Wrong Input, there should be 3 lines");
-                    return (null, null);
-                }
 
-                string[] size = lines[0].Split('*');
-                //ak tam niesu prave 2 cisla, a ak to nahodou niesu cisla
-                if (size.Length != 2 || !int.TryParse(size[0], out int rows) || !int.TryParse(size[1], out int columns))
-                {
-                    Console.WriteLine("Invalid format in the first line. It should be rows*columns");
-                    return (null, null);
-                }
+                string[] dimensions = lines[0].Split('*');
+                int rows = int.Parse(dimensions[0]);
+                int columns = int.Parse(dimensions[1]);
 
-                if(rows < 2 || columns < 2)
-                {
-                    Console.WriteLine("Minimum size of puzzle is 2*2");
-                    return (null, null);
-                }
+                string[] startString = lines[1].Split(' ');
+                string[] finalString = lines[2].Split(' ');
 
-                string[] inputStartString = lines[1].Split(' ');
-                string[] inputFinalString = lines[2].Split(' ');
-                //ak je iny pocet vstupnych cisiel ako vstupna velkost hlavolamu
-                if (inputStartString.Length != rows * columns || inputFinalString.Length != rows * columns)
-                {
-                    Console.WriteLine("The number of input numbers must equal the input size");
-                    return (null, null);
-                }
+                int[,] start = new int[rows, columns];
+                int[,] final = new int[rows, columns];
 
-                int[] inputStartState = new int[rows * columns];
-                int[] inputFinalState = new int[rows * columns];
+                int startIndex = 0;
+                int finalIndex = 0;
 
-                for (int i = 0; i < rows * columns; i++)
+                for (int i = 0; i < rows; i++)
                 {
-                    if (!int.TryParse(inputStartString[i], out inputStartState[i]))
+                    for (int j = 0; j < columns; j++)
                     {
-                        Console.WriteLine($"Not a number in second line at position {i}.");
-                        return (null, null);
-                    }
-                    if (!int.TryParse(inputFinalString[i], out inputFinalState[i]))
-                    {
-                        Console.WriteLine($"Not a number in third line at position {i}.");
-                        return (null, null);
+                        start[i, j] = int.Parse(startString[startIndex]);
+                        final[i, j] = int.Parse(finalString[finalIndex]);
+                        startIndex++;
+                        finalIndex++;
                     }
                 }
 
-                return (new PuzzleNode(inputStartState, rows, columns), new PuzzleNode(inputFinalState, rows, columns));
+                return (new PuzzleNode(start, rows, columns), new PuzzleNode(final, rows, columns));
 
             }
             catch(Exception ex)
             {
-                //ak nastane nahodou nejaka chyba so suborom, nech sa vypise aspon
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return (null, null);
             }

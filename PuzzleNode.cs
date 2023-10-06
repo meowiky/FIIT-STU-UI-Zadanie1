@@ -14,37 +14,12 @@ namespace UI_Zadanie1_c_Bukovska
         public List<MoveEnum> Moves { get; set; }
         public int[] SpacePosition { get; set; }
 
-        public PuzzleNode(int rows, int columns)
+        public PuzzleNode(int[,] state, int rows, int columns, int[] spacePosition, List<MoveEnum> moves)
         {
+            State = new int[rows, columns];
             Rows = rows;
             Columns = columns;
-            State = new int[rows, columns];
-            Moves = new List<MoveEnum>();
-            SpacePosition = new int[2];
-        }
-
-        public PuzzleNode(int[] input, int rows, int columns)
-            : this(rows, columns)
-        {
-            int index = 0;
-            for (int row = 0; row < rows; row++)
-            {
-                for (int col = 0; col < columns; col++)
-                {
-                    State[row, col] = input[index];
-                    if (input[index] == 0)
-                    {
-                        SpacePosition[0] = row;
-                        SpacePosition[1] = col;
-                    }
-                    index++;
-                }
-            }
-        }
-
-        public PuzzleNode(int[,] state, int[] spacePosition, List<MoveEnum> moves, int rows, int columns)
-            : this(rows, columns)
-        {
+        
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
@@ -53,15 +28,33 @@ namespace UI_Zadanie1_c_Bukovska
                 }
             }
 
-            for (int i = 0; i < 2; i++)
+            SpacePosition = spacePosition.ToArray();
+
+            Moves = new List<MoveEnum>(moves);
+        }
+
+        public PuzzleNode(int[,] state, int rows, int columns)
+        {
+            State = new int[rows, columns];
+            Rows = rows;
+            Columns = columns;
+            SpacePosition = new int[2];
+
+            for (int i = 0; i < rows; i++)
             {
-                SpacePosition[i] = spacePosition[i];
+                for (int j = 0; j < columns; j++)
+                {
+                    State[i, j] = state[i, j];
+
+                    if (state[i, j] == 0)
+                    {
+                        SpacePosition[0] = i;
+                        SpacePosition[1] = j;
+                    }
+                }
             }
 
-            foreach (MoveEnum move in moves)
-            {
-                Moves.Add(move);
-            }
+            Moves = new List<MoveEnum>();
         }
 
 
@@ -86,7 +79,7 @@ namespace UI_Zadanie1_c_Bukovska
             return possibleMoves;
         }
 
-        public (int[,], int[]) GetNewState(MoveEnum move)
+        public PuzzleNode GetNewState(MoveEnum move)
         {
             int[,] newState = new int[3,3];
             for (int i = 0; i < 3; i++)
@@ -127,7 +120,10 @@ namespace UI_Zadanie1_c_Bukovska
             spacePosition[0] = tomoveX;
             spacePosition[1] = tomoveY;
 
-            return (newState, spacePosition);
+            List<MoveEnum> newMoves = new List<MoveEnum>(Moves);
+            newMoves.Add(move);
+
+            return new PuzzleNode(newState, Rows, Columns, spacePosition, newMoves);
         }
     }
 }

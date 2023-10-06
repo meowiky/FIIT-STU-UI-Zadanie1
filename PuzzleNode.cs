@@ -60,7 +60,11 @@ namespace UI_Zadanie1_c_Bukovska
         public List<MoveEnum> GetPossibleMoves()
         {
             List<MoveEnum> possibleMoves = new List<MoveEnum>();
-            MoveEnum lastMove = Moves.Last();
+            MoveEnum lastMove;
+            if (Moves.Count != 0)
+                lastMove = Moves.Last();
+            else
+                lastMove = MoveEnum.Possible;
 
             // left
             if ((SpacePosition[1] + 1 < Columns) && (lastMove != MoveEnum.Right))

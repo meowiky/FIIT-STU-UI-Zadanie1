@@ -11,6 +11,7 @@ namespace UI_Zadanie1_c_Bukovska
         Up,
         Down,
         Left,
-        Right
+        Right,
+        Possible
     }
 }

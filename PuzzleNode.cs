@@ -57,8 +57,6 @@ namespace UI_Zadanie1_c_Bukovska
             Moves = new List<MoveEnum>();
         }
 
-
-
         public List<MoveEnum> GetPossibleMoves()
         {
             List<MoveEnum> possibleMoves = new List<MoveEnum>();
@@ -125,6 +123,20 @@ namespace UI_Zadanie1_c_Bukovska
             newMoves.Add(move);
 
             return new PuzzleNode(newState, Rows, Columns, spacePosition, newMoves);
+        }
+
+        public bool IsEqualState(PuzzleNode other)
+        {
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    if (State[i, j] != other.State[i, j])
+                        return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace UI_Zadanie1_c_Bukovska
                 File.Delete(outputFile);
             using (StreamWriter writer = new StreamWriter(outputFile))
             {
-                writer.WriteLine($"After {maxSteps} steps, the program still hasn't found the right steps");
+                writer.WriteLine($"After {2*maxSteps} steps, the program still hasn't found the right steps");
             }
         }
 

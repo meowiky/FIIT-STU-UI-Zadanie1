@@ -6,7 +6,7 @@
         {
             try
             {
-                int maxSteps = 25;
+                int maxSteps = 10;
                 AppFlow.Run("input.txt", "output.txt", maxSteps);
             }
             catch (Exception e)

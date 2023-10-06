@@ -6,6 +6,11 @@
         {
             var (startingNode, finalNode) = GetInputFromTXT();
 
+            if (IsEqualState(startingNode, finalNode))
+            {
+
+            }
+
             List<PuzzleNode> parentsFromStart = new List<PuzzleNode>();
             List<PuzzleNode> childrenfromStart = new List<PuzzleNode>();
 
@@ -15,22 +20,44 @@
             parentsFromStart.Add(startingNode);
             parentsFromEnd.Add(finalNode);
 
-            foreach (PuzzleNode node in parentsFromStart)
+            while (true)
             {
-                List<MoveEnum> possibleMoves = node.GetPossibleMoves();
-                foreach (MoveEnum move in possibleMoves)
-                {
-                    childrenfromStart.Add(node.GetNewState(move));
-                }
-            }
 
-            foreach (PuzzleNode node in parentsFromEnd)
-            {
-                List<MoveEnum> possibleMoves = node.GetPossibleMoves();
-                foreach (MoveEnum move in possibleMoves)
+                foreach (PuzzleNode node in parentsFromStart)
                 {
-                    childrenfromEnd.Add(node.GetNewState(move));
+                    List<MoveEnum> possibleMoves = node.GetPossibleMoves();
+                    foreach (MoveEnum move in possibleMoves)
+                    {
+                        childrenfromStart.Add(node.GetNewState(move));
+                    }
                 }
+
+                foreach (PuzzleNode node in parentsFromEnd)
+                {
+                    List<MoveEnum> possibleMoves = node.GetPossibleMoves();
+                    foreach (MoveEnum move in possibleMoves)
+                    {
+                        childrenfromEnd.Add(node.GetNewState(move));
+                    }
+                }
+
+                foreach (PuzzleNode nodeA in childrenfromStart)
+                {
+                    foreach (PuzzleNode nodeB in childrenfromEnd)
+                    {
+                        if (IsEqualState(nodeA, nodeB))
+                        {
+
+                        }
+                    }
+                }
+
+                parentsFromStart.Clear();
+                parentsFromEnd.Clear();
+                parentsFromStart = new List<PuzzleNode>(childrenfromStart);
+                parentsFromEnd = new List<PuzzleNode>(childrenfromEnd);
+                childrenfromStart.Clear();
+                childrenfromEnd.Clear();
             }
         }
 
@@ -88,6 +115,11 @@
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return (null, null);
             }
+        }
+
+        public static void WriteFoundResult(PuzzleNode a, PuzzleNode b)
+        {
+
         }
     }
 }

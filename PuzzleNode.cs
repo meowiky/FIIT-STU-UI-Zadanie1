@@ -62,18 +62,19 @@ namespace UI_Zadanie1_c_Bukovska
         public List<MoveEnum> GetPossibleMoves()
         {
             List<MoveEnum> possibleMoves = new List<MoveEnum>();
+            MoveEnum lastMove = Moves.Last();
 
             // left
-            if (SpacePosition[1] + 1 < Columns)
+            if ((SpacePosition[1] + 1 < Columns) && (lastMove != MoveEnum.Right))
                 possibleMoves.Add(MoveEnum.Left);
             // right
-            if (SpacePosition[1] - 1 >= 0)
+            if ((SpacePosition[1] - 1 >= 0) && (lastMove != MoveEnum.Left))
                 possibleMoves.Add(MoveEnum.Right);
             //up
-            if (SpacePosition[0] + 1 < Rows)
+            if ((SpacePosition[0] + 1 < Rows) && (lastMove != MoveEnum.Down))
                 possibleMoves.Add(MoveEnum.Up);
             //down
-            if (SpacePosition[0] - 1 >= 0)
+            if ((SpacePosition[0] - 1 >= 0) && (lastMove != MoveEnum.Up))
                 possibleMoves.Add(MoveEnum.Down);
 
             return possibleMoves;

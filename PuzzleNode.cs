@@ -84,10 +84,10 @@ namespace UI_Zadanie1_c_Bukovska
 
         public PuzzleNode GetNewState(MoveEnum move)
         {
-            int[,] newState = new int[3,3];
-            for (int i = 0; i < 3; i++)
+            int[,] newState = new int[Rows,Columns];
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < Columns; j++)
                 {
                     newState[i, j] = State[i, j];
                 }

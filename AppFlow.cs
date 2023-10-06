@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace UI_Zadanie1_c_Bukovska
 {
    public static class AppFlow
-    {
+   {
         public static void Run(string inputFile, string outputFile, int maxSteps)
         {
             var (startingNode, finalNode) = GetInputFromTXT(inputFile);
@@ -153,5 +153,5 @@ namespace UI_Zadanie1_c_Bukovska
                 writer.WriteLine(result);
             }
         }
-    }
+   }
 }

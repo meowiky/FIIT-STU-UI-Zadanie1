@@ -8,6 +8,7 @@ namespace UI_Zadanie1_c_Bukovska
 {
     public class PuzzleNode
     {
+        // public static int pocet = 0;
         public int Rows { get; private set; }
         public int Columns { get; private set; }
         public int[,] State { get; set; }
@@ -31,6 +32,7 @@ namespace UI_Zadanie1_c_Bukovska
             SpacePosition = spacePosition.ToArray();
 
             Moves = new List<MoveEnum>(moves);
+            // pocet++;
         }
 
         public PuzzleNode(int[,] state, int rows, int columns)
@@ -55,6 +57,7 @@ namespace UI_Zadanie1_c_Bukovska
             }
 
             Moves = new List<MoveEnum>();
+            // pocet++;
         }
 
         public List<MoveEnum> GetPossibleMoves()

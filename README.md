@@ -50,4 +50,4 @@ static void Main(string[] args)
   }
 ```
 `int maxSteps` je počet maximálne povolených iterácií. Pri čísle maxSteps = 10 sa vykoná 20 posunov, 10 spredu a 10 zozadu.
-### Funckia Run()
+### Funkcia Run()

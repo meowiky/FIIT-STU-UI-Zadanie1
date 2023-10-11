@@ -49,6 +49,7 @@ Mojou ulohou je najst riesenie pre 8-Hlavolam. Pouzivatel zada vstupny a vystupn
   - [Metoda PuzzleNode IsEqualState()](#IsEqualState)
   - [MoveEnum](#MoveEnum)
 - [Algoritmus Obojsmerneho Hladania](#Algoritmus-Obojsmerneho-hladania)
+- [Priklady a Testovanie](#Priklady-a-Testovanie)
 
 ## Popis a vysvetlenie kodu
 ### Funkcia Main
@@ -433,5 +434,82 @@ Maximalne zabratie pamate nastava, ak je mozne vykonat vsetky 4 smery posunov, t
 Pre 8-Puzzle 8 Hlavolam je obojsmerne prehladavanie celkom dobra volba, pretoze najde urcite najkratsiu cestu ako prvu. Taktiez je to rychlejsie ako hladanie iba z jedneho smeru, lebo by sme nevedeli, ci najdena cesta je optialna a trvalo by to viac casu. Nevyhodou je ze obojsmerne prehladavanie potrebuje viac pamate nez prehladavanie z jednej strany. 
 
 ## Priklady a Testovanie
-Chcela by som vam odporucit na vizualne zobrazovanie stranku [https://tilesolver.com/](https://tilesolver.com/). Riesenie cesty tejto stranky je velmi casto dlhsie nez to moje a to preto, ze pouziva iny algoritmus. No ak testujeme pre velkost 3*3 da sa tam lahko posuny simulovat.
+Chcela by som vam odporucit na vizualne zobrazovanie stranku [https://tilesolver.com/](https://tilesolver.com/). Riesenie cesty tejto stranky je velmi casto dlhsie nez to moje a to preto, ze pouziva iny algoritmus. No ak testujeme pre velkost 3*3 da sa tam lahko posuny simulovat. Pouzivam priklady zo zadania.
 
+> ### Ako testujem
+> Testujem na Windows 10 s procesorom Intel(R) Core(TM) i7-10870H CPU @ 2.20 GHz 2.21 GHz s 16 GB RAM v IDE Visual Studio 2022 v jazyku C#
+> do classy PuzzleNode som pridala `public static int pocet = 0;` a inkrementujem ho pri kazdom zavolani konstruktora.
+> Do mainu som pridala
+> ```C#
+> Stopwatch stopwatch = new Stopwatch();
+> int maxSteps = 15;
+> stopwatch.Start();
+> AppFlow.Run("input.txt", "output.txt", maxSteps);
+> stopwatch.Stop();
+> long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+> Console.WriteLine($"Elapsed Time: {elapsedMilliseconds} ms");
+> Console.WriteLine(PuzzleNode.pocet);
+> ```
+
+### Priklad 1 2*3
+int maxSteps = 15;  
+Vstup
+```
+2*3
+0 1 2 3 4 5
+3 4 5 0 1 2
+```
+Vystup
+```
+Left, Left, Up, Right, Down, Right, Up, Left, Left, Down, Right, Up, Right, Down, Left, Left, Up, Right, Down, Right, Up
+```
+Pocet vytvorenych PuzzleNodeov : 368
+Cas zbehnutia: Elapsed Time: 14 ms
+
+### Priklad 2 4*2
+int maxSteps = 20;  
+Vstup
+```
+2*4
+0 1 2 3 4 5 6 7
+3 2 5 4 7 6 1 0
+```
+Vystup
+```
+Left, Left, Left, Up, Right, Right, Right, Down, Left, Left, Left, Up, Right, Right, Down, Left, Left, Up, Right, Right, Right, Down, Left, Up, Left, Down, Right, Up, Right, Down, Left, Up, Left, Down, Left, Up
+```
+Pocet vytvorenych PuzzleNodeov : 22136
+Cas zbehnutia: Elapsed Time: 583 ms
+
+### Priklad 3 3*3
+int maxSteps = 25;  
+Vstup
+```
+3*3
+0 1 2 3 4 5 6 7 8
+8 0 6 5 4 7 2 3 1
+```
+Vystup
+```
+Left, Left, Up, Right, Right, Down, Left, Left, Up, Up, Right, Right, Down, Left, Up, Right, Down, Down, Left, Up, Left, Down, Right, Up, Left, Up, Right, Right, Down, Down, Left
+```
+Pocet vytvorenych PuzzleNodeov : 49960
+Elapsed Time: 2695 ms
+
+### Priklad 4 3*3
+int maxSteps = 25;  
+Vstup
+```
+3*3
+1 2 3 4 5 6 7 8 0
+2 5 8 6 4 1 3 7 0
+```
+Vystup
+```
+Right, Right, Down, Left, Left, Up, Right, Down, Down, Right, Up, Left, Down, Left, Up, Right, Down, Right, Up, Up, Left, Down, Right, Up, Left, Left
+```
+Pocet vytvorenych PuzzleNodeov : 8742
+Elapsed Time: 131 ms
+
+## Zaver
+Na riesenie tejto ulohy bol algoritmus obojstranneho prehladavania vhodny vyber. No ak chceme riesit aj vacsie hlavolami, s postupom krokov vacsim ako napr 40 posunov, tento algoritmus kym vobec dojde nato, ze ani dany pocet krokov mu nestaci, trva strasne dlho. Viem si predstavit do buducna este vylepsit optimalizaciu cyklenia, kedze aktualne moj program zakazuje sa vracat na predchadzajuci stav, ale mozno by bolo nejak mozne mu zakazat robit cykly, cim berie viac pamate.

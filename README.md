@@ -1,5 +1,8 @@
 # UI Zadanie 1 c
-## Prehľadávanie stavového priestoru 8-Hlavolam, Obojstranny Algoritmus
+## Prehľadávanie stavového priestoru, 8-Hlavolam, Obojstranny Algoritmus
+### Viktória Bukovská FIIT STU UI 2023
+
+Mojou ulohou je najst riesenie pre 8-Hlavolam. Pouzivatel zada vstupny a vystupny stav hlavolamu a moj program ma najst postupnost posunov ako sa dostat zo vstupneho stavu do vystupneho. Moj program je schopny hladat riesenia pre akukolvek velkost hlavolamu, samozrejme zmysel to dava az od 2*2. Hlavolam nemusi byt stvorcovy. 
 [Link na Originalne Zadanie](http://www2.fiit.stuba.sk/~kapustik/z2d.html#C)
 
 > ## How To: Spustenie a Pouzivanie programu
@@ -45,6 +48,7 @@
   - [Metoda PuzzleNode GetNewState()](#GetNewState)
   - [Metoda PuzzleNode IsEqualState()](#IsEqualState)
   - [MoveEnum](#MoveEnum)
+- [Algoritmus Obojsmerneho Hladania](#Algoritmus-Obojsmerneho-hladania)
 
 ## Popis a vysvetlenie kodu
 ### Funkcia Main
@@ -145,9 +149,9 @@ foreach (PuzzleNode nodeA in childrenfromStart)
 }
 ```
 Obrazok pre vysvetlenie preco treba deti porovnavat aj s rodicmi. Ak sa rovna stav dietata a rodica bude neparny pocet posunov.
-![UIneparny](https://github.com/meowiky/FIIT-STU-UI-Zadanie1/assets/91073373/ec43e9f1-64ba-4c5e-8e0e-b4760b1c84f6)
+![UIneparny](obrazky/UIneparny.jpg)
 Obrazok pre parny pocet posunov, teda pripad, ze rovnaky stav sa najde medzi detmi.
-![UIparny](https://github.com/meowiky/FIIT-STU-UI-Zadanie1/assets/91073373/1459f075-411d-45f3-9fb2-65b5746f7677)
+![UIparny](obrazky/UIparny.jpg)
 V poslednej casti for loopu vymazem vsetkych rodicov. Do rodicov zo zaciatku vlozim deti zo zaciatku a do rodicov z konca vlozim deti z konca. Potom vymazem Listy deti.
 ```C#
   parentsFromStart.Clear();
@@ -416,4 +420,18 @@ public bool IsEqualState(PuzzleNode other)
 }
 ```
 
+## Algoritmus Obojsmerneho hladania
+### Vseobecny opis
+Tento Algoritmus sa snazi najst cestu z jedneho uzla do druheho uzla tak, ze naraz prehladava cestu z oboch stran. Cestu nasiel ked sa tieto dva uzle stretnu v strede. Kedze naraz prehladava z oboch stran, ide vzdy postupne podla prehladavania do sirky, level po leveli, aby vedel najst, co najkrajtsiu cestu. Prehladavanie do sirky funguje tak, ze pre aktualny uzol najdeme vsetky susedne uzly vzdialene dlzky 1. A az potom sa posunieme na dalsi uzol.
+### Ako som postupovala ja
+Kedze som si nepotrebovala uchovavat vsetky Uzle, vzdy som si len pamatala postupnost posunov, ktorymi som sa k tomuto uzlu dostala. Vdaka tomu som setrila viac pamat programu. Dalsiou optimalizaciou bolo zakazat sa vratit spat na rovnaky stav uzla. Ak posledny posun bol dole, tak dalsi nemoze byt hore, inac by sme sa vratili na ten isty stav. Taktiez si bolo treba uvedomit, ze pri 8-Hlavolame vzdy nastane posun a zmena stavu, takze ak sme prehladavali z oboch stran, mohla nastat situacia, ze sa stavy vzdy o jeden posun preskocia. Taketo preskocenie nastava ak vysledny pocet posunov je neparny. Vlastnorucne kreslene vysvetlenie som pridala ako dva obrazky v dir obrazky teda [obrazky](/obrazky/).
+![UIneparny](obrazky/UIneparny.jpg)
+![UIparny](obrazky/UIparny.jpg)
+### Pamat
+Maximalne zabratie pamate nastava, ak je mozne vykonat vsetky 4 smery posunov, teda musi vzniknut z jedneho uzla dalsie 4. To znamena ze pri najhorsiom, pripade, co je teda nemozne, lebo nikdy nebude medzera stale v strede by sa pocet zvacsoval 1->4->16->64 .. Ale kedze vzdy zakazem rovnaky pohyb tak to mozem obmedzit na maximalne 3 dalsie rovnake uzly, teda by to slo, ze 1->4->12->36 .. 
+### Vyhody a Nevyhody
+Pre 8-Puzzle 8 Hlavolam je obojsmerne prehladavanie celkom dobra volba, pretoze najde urcite najkratsiu cestu ako prvu. Taktiez je to rychlejsie ako hladanie iba z jedneho smeru, lebo by sme nevedeli, ci najdena cesta je optialna a trvalo by to viac casu. Nevyhodou je ze obojsmerne prehladavanie potrebuje viac pamate nez prehladavanie z jednej strany. 
+
+## Priklady a Testovanie
+Chcela by som vam odporucit na vizualne zobrazovanie stranku [https://tilesolver.com/](https://tilesolver.com/). Riesenie cesty tejto stranky je velmi casto dlhsie nez to moje a to preto, ze pouziva iny algoritmus. No ak testujeme pre velkost 3*3 da sa tam lahko posuny simulovat.
 

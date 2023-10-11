@@ -24,7 +24,10 @@
 > ```
 > After 20 steps, the program still hasn't found the right steps
 > ```
-> Vystup je bud postupnost spravnych pohybov alebo vypis, ze po x krokoch (podla toho ako to je v maine nastavene) program cestu nenasiel. Pre niektore vstupy neexistuje postupnost spravnych krokov.
+> ```
+> No moves needed
+> ```
+> Vystup je bud postupnost spravnych pohybov alebo vypis, ze po x krokoch (podla toho ako to je v maine nastavene) program cestu nenasiel. Moznost je aj ze zaciatocny a konecny stav sa rovnaju. Pre niektore vstupy neexistuje postupnost spravnych krokov.
 > ### Vysvetlenie pohybu
 > `Down` znamena posun cisla nad medzerou smerom dole.
 > `Up` znamena posun cisla pod medzerou smerom hore.
@@ -33,7 +36,7 @@
 
 ## Popis a vysvetlenie kodu
 ### Funkcia Main
-Funckia main sa nachadza v [Program.cs](Program.cs), kde sa v try catch spustí statická metóda [Run](#funkcia-run) statickej classy [AppFlow](AppFlow.cs). Try catch využívam na zachytenie prípadných výnimiek a chýb a ich vypísanie do konzoly.
+Funckia main sa nachadza v [Program.cs](Program.cs), kde sa v try catch spustí statická metóda [Run](#run) statickej classy [AppFlow](AppFlow.cs). Try catch využívam na zachytenie prípadných výnimiek a chýb a ich vypísanie do konzoly.
 ```C#
 static void Main(string[] args)
   {
@@ -50,4 +53,102 @@ static void Main(string[] args)
   }
 ```
 `int maxSteps` je počet maximálne povolených iterácií. Pri čísle maxSteps = 10 sa vykoná 20 posunov, 10 spredu a 10 zozadu.
-### Funkcia Run()
+
+### Run
+Tato staticka metoda sa nachadza v [AppFlow](AppFlow.cs) a vola v [Maine](#funkcia-main). Prijma 3 parametre, path k vstupnemu a vystupnemu suboru a počet maximálne povolených iterácií. Pri čísle maxSteps = 10 sa vykoná 20 posunov, 10 spredu a 10 zozadu.
+```C#
+public static void Run(string inputFile, string outputFile, int maxSteps){}
+```
+Z metody [GetInputFromTXT](#GetInputFromTXT) ziskam instancie zaciatocnej a finalnej classy [PuzzleNode](#PuzzleNode).
+```C#
+var (startingNode, finalNode) = GetInputFromTXT(inputFile);
+```
+V tejto casti kodu volam metodu [IsEqualState](#IsEqualState) classy [PuzzleNode](#PuzzleNode). Ak vrati true to znamena, ze zaciatocny a konecny stav sa rovnaju, takze netreba ziaden posun a program moze skoncit. Teda zisti, ci vystupny subor existuje, ak hej ho vymaze a nasledne vytvori a zapise.
+```C#
+if (startingNode.IsEqualState(finalNode))
+  {
+      if (File.Exists(outputFile))
+          File.Delete(outputFile);
+      using (StreamWriter writer = new StreamWriter(outputFile))
+      {
+          writer.WriteLine("No moves needed");
+      }
+  }
+```
+Vytvorim si 4 variables pre Datovu strukturu [List<data type>](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-7.0) pre classu [PuzzleNode](#PuzzleNode). Budem prehladavat od zaciatku a od konca. Pre kazde prehladvanie budem mat dva Listy, listy rodicov a listy deti. Na zaciatku si do rodicov pridam zaciatocnu a konecnu [PuzzleNode](#PuzzleNode).
+```C#
+List<PuzzleNode> parentsFromStart = new List<PuzzleNode>();
+List<PuzzleNode> childrenfromStart = new List<PuzzleNode>();
+
+List<PuzzleNode> parentsFromEnd = new List<PuzzleNode>();
+List<PuzzleNode> childrenfromEnd = new List<PuzzleNode>();
+
+parentsFromStart.Add(startingNode);
+parentsFromEnd.Add(finalNode);
+```
+Dalsia cela cast sa nachadza v tomto for loope, ktory sluzi nato aby program sa nezacyklil a nebezal do nekonecna, kedze niekedy neexistuje spravna postupnost krokov. 
+```C#
+for (int i = 0; i < maxSteps; i++)
+```
+V prvej casti loopu si pre kazdeho rodica nachadzajuceho sa v liste pre rodicov (zo zaciatku aj z konca) zavolam funkciu [GetPossibleMoves](#GetPossibleMoves) ktora mi vrati list class [MoveEnum](#MoveEnum). Toto je vlastne list vsetkych moznych pohybov pre danu [PuzzleNode](#PuzzleNode). Pre kazdy mozny pohyb v tom liste pridam novu [PuzzleNode](#PuzzleNode) dietata do listu deti vdaka funkcii [GetNewState](#GetNewState), ktora sa zavola na aktualnu instanciu parenta a vrati novo vytvorenu instanciu stavu po danom pohybe. Toto sa stane pre rodicov zo zaciatku aj z konca.
+```C#
+foreach (PuzzleNode node in parentsFromStart)
+{
+    List<MoveEnum> possibleMoves = node.GetPossibleMoves();
+    foreach (MoveEnum move in possibleMoves)
+    {
+        childrenfromStart.Add(node.GetNewState(move));
+    }
+}
+
+foreach (PuzzleNode node in parentsFromEnd)
+{
+    List<MoveEnum> possibleMoves = node.GetPossibleMoves();
+    foreach (MoveEnum move in possibleMoves)
+    {
+        childrenfromEnd.Add(node.GetNewState(move));
+    }
+}
+```
+V tejto casti for loopu idem porovnavat [PuzzleNodes](#PuzzleNode) medzi sebou. Pre kazdu Nodu dietata zo zaciatku zavolam kazdu Nodu dietata z konca a pomocou funkcie [IsEqualState](#IsEqualState) zistim, ci sa ich stavy rovnaju. Ak sa ich stavy rovnaju zavolam funkciu [ReturnFoundResult](#ReturnFoundResult) a tuto ukoncim. Ak sa ich stavy nerovnaju tento loop pokracuje a porovnava Nody parentov zo zadu s kazdou Nodou dietata zo zaciatku. Dovod preco musim porovnavat aj deti s parentami je vysvetleny na obrazku pod ukazkou kodu.
+```C#
+foreach (PuzzleNode nodeA in childrenfromStart)
+{
+    foreach (PuzzleNode nodeB in childrenfromEnd)
+    {
+        if (nodeA.IsEqualState(nodeB))
+        {
+            ReturnFoundResult(nodeA, nodeB, outputFile);
+            return;
+        }
+    }
+    foreach (PuzzleNode nodeC in parentsFromEnd)
+    {
+        if (nodeA.IsEqualState(nodeC))
+        {
+            ReturnFoundResult(nodeA, nodeC, outputFile);
+            return;
+        }
+    }
+}
+```
+Obrazok pre vysvetlenie preco treba deti porovnavat aj s rodicmi. Ak sa rovna stav dietata a rodica bude neparny pocet posunov.
+![UIneparny](https://github.com/meowiky/FIIT-STU-UI-Zadanie1/assets/91073373/ec43e9f1-64ba-4c5e-8e0e-b4760b1c84f6)
+Obrazok pre parny pocet posunov, teda pripad, ze rovnaky stav sa najde medzi detmi.
+![UIparny](https://github.com/meowiky/FIIT-STU-UI-Zadanie1/assets/91073373/1459f075-411d-45f3-9fb2-65b5746f7677)
+
+### GetInputFromTXT
+
+### PuzzleNode
+
+### MoveEnum
+
+### ReturnFoundResult
+
+### GetPossibleMoves
+
+### GetNewState
+
+### IsEqualState
+
+
